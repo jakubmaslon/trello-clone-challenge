@@ -1,11 +1,13 @@
 interface Colors {
   white: string;
-  sienna: string;
-  green: string;
-  brown: string;
+}
+
+interface Spaces {
+  base: string;
 }
 
 export interface Theme {
   colors: Colors;
+  spaces: Spaces;
   name: string;
 }
