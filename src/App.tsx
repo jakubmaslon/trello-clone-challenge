@@ -1,17 +1,15 @@
 import * as React from "react";
-import styled from "styled-components";
+import { ThemeProvider } from "styled-components";
+import { Reboot } from 'styled-reboot';
 
-const StyledComponent = styled.h1`
-  color: red;
-`;
+import { theme } from "./ui/theme/default";
+import Board from "./components/Board";
 
-const App = (): React.ReactElement => {
-  return (
-    <div>
-      Hello world
-      <StyledComponent>Styled h1</StyledComponent>
-    </div>
-  )
-}
+const App = (): React.ReactElement => (
+  <ThemeProvider theme={theme}>
+    <Reboot />
+    <Board />
+  </ThemeProvider>
+)
 
 export default App;
