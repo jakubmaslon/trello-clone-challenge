@@ -1,12 +1,14 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { TaskEditorContext, TasksContext } from "../App";
+import { TaskEditorContext, TasksContext } from "./ContextProviders";
+import Task from "./Task";
+
 import { Button } from "../ui/Button";
+
 import { STATUS, TASK_DETAILS_EDITOR_STATE } from "../typings/global";
 
-import Task from "./Task";
-import { getStatusTranslation } from "../services/getStatusTranslation";
+import { statusTranslation } from "../services/getStatusTranslation";
 
 const Board = (): React.ReactElement => {
     const { tasks } = React.useContext(TasksContext);
@@ -14,7 +16,7 @@ const Board = (): React.ReactElement => {
 
     const handleCreateTaskClick = () =>
         setTaskEditor({
-            state: TASK_DETAILS_EDITOR_STATE.CREATE,
+            state: TASK_DETAILS_EDITOR_STATE.EDIT,
             task: "",
         });
 
@@ -22,7 +24,7 @@ const Board = (): React.ReactElement => {
         <BoardWrapper>
             {Object.values(STATUS).map(status =>
                 <Column key={status}>
-                    <ColumnLabel>{getStatusTranslation(status)}</ColumnLabel>
+                    <ColumnLabel>{statusTranslation[status]}</ColumnLabel>
                     {tasks
                         .filter(task => task.status === status)
                         .map((task, index) => (

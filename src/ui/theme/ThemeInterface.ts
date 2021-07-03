@@ -12,8 +12,14 @@ interface Spaces {
   base: string;
 }
 
+interface BoxShadows {
+  light: string;
+  heavy: string;
+}
+
 export interface Theme {
   colors: Colors;
   spaces: Spaces;
+  boxShadows: BoxShadows;
   name: string;
 }

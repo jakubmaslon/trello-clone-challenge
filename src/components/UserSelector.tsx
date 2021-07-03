@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { UserContext } from "../App";
+import { UserContext } from "./ContextProviders";
 
 const UserSelector = (): React.ReactElement => {
     const { user, setUser, users } = React.useContext(UserContext);

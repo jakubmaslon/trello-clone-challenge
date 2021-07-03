@@ -9,9 +9,7 @@ export enum STATUS {
 
 export enum TASK_DETAILS_EDITOR_STATE {
     HIDDEN,
-    CREATE,
     EDIT,
-    SEE_DETAILS,
 }
 
 export interface Task {
@@ -25,16 +23,16 @@ export interface Task {
     log: string[];
 }
 
-export interface Form {
-    title: string;
-    description: string;
-    status: STATUS;
-    assignee: string;
-}
-
 export enum TASK_FORM_FIELDS {
     TITLE = "title",
     DESCRIPTION = "description",
     STATUS = "status",
-    OWNER = "owner",
+    ASSIGNEE = "assignee",
+}
+
+export interface Form {
+    [TASK_FORM_FIELDS.TITLE]: string;
+    [TASK_FORM_FIELDS.DESCRIPTION]: string;
+    [TASK_FORM_FIELDS.STATUS]: STATUS;
+    [TASK_FORM_FIELDS.ASSIGNEE]: string;
 }

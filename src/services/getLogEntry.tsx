@@ -1,8 +1,9 @@
+import { statusTranslation } from "./getStatusTranslation";
+
 import { Task, Form } from "../typings/global";
-import { getStatusTranslation } from "./getStatusTranslation";
 
 const getEditedAction = (editedTask: Task, form: Form) => {
-    const editedTaskLabel = "edited this task:";
+    const editedTaskLabel = "edited this task as follows:";
 
     const titleEdited = editedTask.title !== form.title
         ? `\nTitle: ${editedTask.title} ➡️ ${form.title}`
@@ -13,7 +14,7 @@ const getEditedAction = (editedTask: Task, form: Form) => {
         : "";
 
     const statusEdited = editedTask.status !== form.status
-        ? `\nStatus: ${getStatusTranslation(editedTask.status)} ➡️ ${getStatusTranslation(form.status)}`
+        ? `\nStatus: ${statusTranslation[editedTask.status]} ➡️ ${statusTranslation[form.status]}`
         : "";
 
     const assigneeEdited = editedTask.assignee !== form.assignee
@@ -30,7 +31,7 @@ interface LogEntry {
     form?: Form;
 }
 
-export const setLogEntry = (logEntry: LogEntry): string => {
+export const getLogEntry = (logEntry: LogEntry): string => {
     const updatedAt = logEntry.updatedAt.toLocaleString();
 
     const action = (logEntry.editedTask && logEntry.form)

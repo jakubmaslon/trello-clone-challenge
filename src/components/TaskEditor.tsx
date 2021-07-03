@@ -2,19 +2,22 @@ import * as React from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from 'uuid';
 
-import { TASK_DETAILS_EDITOR_STATE, STATUS, Task, Form } from "../typings/global";
-import { TaskEditorContext, TasksContext, UserContext } from "../App";
+import { TaskEditorContext, TasksContext, UserContext } from "./ContextProviders";
+
+import { TASK_DETAILS_EDITOR_STATE, STATUS, Task, Form, TASK_FORM_FIELDS } from "../typings/global";
+
 import { Button } from "../ui/Button";
 import { Close } from "../ui/Close";
-import { getStatusTranslation } from "../services/getStatusTranslation";
-import { getStatusFlow } from "../services/getStatusFlow";
-import { setLogEntry } from "../services/setLogEntry";
+
+import { statusTranslation } from "../services/getStatusTranslation";
+import { statusFlow } from "../services/getStatusFlow";
+import { getLogEntry } from "../services/getLogEntry";
 
 const getFormInitialState = (users: string[]) => ({
-    title: "",
-    description: "",
-    status: STATUS.TODO,
-    assignee: users[0],
+    [TASK_FORM_FIELDS.TITLE]: "",
+    [TASK_FORM_FIELDS.DESCRIPTION]: "",
+    [TASK_FORM_FIELDS.STATUS]: STATUS.TODO,
+    [TASK_FORM_FIELDS.ASSIGNEE]: users[0],
 })
 
 const TaskEditor = (): React.ReactElement | null => {
@@ -45,33 +48,17 @@ const TaskEditor = (): React.ReactElement | null => {
             state: TASK_DETAILS_EDITOR_STATE.HIDDEN,
             taskId: "",
         });
-
         setForm(getFormInitialState(users));
         setEditedTask(undefined);
     }
 
     /*
-        FORM CHANGE HANDLERS
+        FORM HANDLERS
     */
-    const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const title = event.target.value;
-        setForm({ ...form, title })
-    };
-
-    const handleDescriptionChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        const description = event.target.value;
-        setForm({ ...form, description })
-    };
-
-    const handleAssigneeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const assignee = event.target.value;
-        setForm({ ...form, assignee });
-    }
-
-    const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-        const status = event.target.value as STATUS;
-        setForm({ ...form, status })
-    }
+    const handleFormChange = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+        field: TASK_FORM_FIELDS) =>
+        setForm({ ...form, [field]: event.target.value })
 
     const handleSubmit = () => {
         const updatedAt = new Date();
@@ -85,7 +72,7 @@ const TaskEditor = (): React.ReactElement | null => {
                         ...form,
                         log: [
                             ...task.log,
-                            setLogEntry({ updatedAt, updatedBy, editedTask, form })
+                            getLogEntry({ updatedAt, updatedBy, editedTask, form })
                         ]
                     }
                 }
@@ -101,7 +88,7 @@ const TaskEditor = (): React.ReactElement | null => {
                     id: uuidv4(),
                     owner: updatedBy,
                     createdAt: updatedAt,
-                    log: [setLogEntry({ updatedAt, updatedBy })],
+                    log: [getLogEntry({ updatedAt, updatedBy })],
                 },
             ]);
         }
@@ -112,14 +99,14 @@ const TaskEditor = (): React.ReactElement | null => {
     /*
         FORM VALIDATION
     */
-    const requiredFieldsValidated = form.title;
+    const requiredFieldsValidated = form[TASK_FORM_FIELDS.TITLE];
 
     const isFormValidated = editedTask
         ? requiredFieldsValidated && (
-            editedTask.title !== form.title ||
-            editedTask.description !== form.description ||
-            editedTask.assignee !== form.assignee ||
-            editedTask.status !== form.status)
+            editedTask.title !== form[TASK_FORM_FIELDS.TITLE] ||
+            editedTask.description !== form[TASK_FORM_FIELDS.DESCRIPTION] ||
+            editedTask.assignee !== form[TASK_FORM_FIELDS.ASSIGNEE] ||
+            editedTask.status !== form[TASK_FORM_FIELDS.STATUS])
         : requiredFieldsValidated;
 
     return (
@@ -130,15 +117,26 @@ const TaskEditor = (): React.ReactElement | null => {
                 <FormStyled onSubmit={handleSubmit}>
                     <Label>
                         <h5>Title</h5>
-                        <Input type="text" value={form.title} onChange={handleTitleChange} autoFocus />
+                        <Input
+                            type="text"
+                            value={form[TASK_FORM_FIELDS.TITLE]}
+                            onChange={(event) => handleFormChange(event, TASK_FORM_FIELDS.TITLE)}
+                            autoFocus
+                        />
                     </Label>
                     <Label>
                         <h5>Description</h5>
-                        <Textarea value={form.description} onChange={handleDescriptionChange} />
+                        <Textarea
+                            value={form[TASK_FORM_FIELDS.DESCRIPTION]}
+                            onChange={(event) => handleFormChange(event, TASK_FORM_FIELDS.DESCRIPTION)}
+                        />
                     </Label>
                     <Label>
                         <h5>Assignee</h5>
-                        <Select value={form.assignee} onChange={handleAssigneeChange}>
+                        <Select
+                            value={form[TASK_FORM_FIELDS.ASSIGNEE]}
+                            onChange={(event) => handleFormChange(event, TASK_FORM_FIELDS.ASSIGNEE)}
+                        >
                             {users.map(user => (
                                 <option key={user} value={user}>{user}</option>
                             ))}
@@ -148,9 +146,12 @@ const TaskEditor = (): React.ReactElement | null => {
                     {editedTask && (
                         <Label>
                             <h5>Status</h5>
-                            <Select value={form.status} onChange={handleStatusChange}>
-                                {getStatusFlow(editedTask.status).map(status =>
-                                    <option key={status} value={status}>{getStatusTranslation(status)}</option>
+                            <Select
+                                value={form[TASK_FORM_FIELDS.STATUS]}
+                                onChange={(event) => handleFormChange(event, TASK_FORM_FIELDS.STATUS)}
+                            >
+                                {statusFlow[editedTask.status].map(status =>
+                                    <option key={status} value={status}>{statusTranslation[status]}</option>
                                 )}
                             </Select>
                         </Label>
@@ -205,7 +206,7 @@ const Textarea = styled.textarea`
 
 const LogEntry = styled.div<{ withAnotherBackgroundColor: boolean }>`
     white-space: pre-wrap;
-    font-size: 12px;
+    font-size: 0.75rem;
     padding: ${props => props.theme.spaces.half};
     background: ${props => props.withAnotherBackgroundColor ? props.theme.colors.lightGrey : "none"};
 `;
@@ -219,9 +220,7 @@ const ModalWrapper = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    
-    /* @TODO use color from theme */
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(0.5rem);
     z-index: 1;
 `;
 
@@ -242,7 +241,7 @@ const TaskEditorStyled = styled.div`
     max-width: 576px;
     padding: ${props => props.theme.spaces.base};
     background: ${props => props.theme.colors.white};
-    box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    box-shadow: ${props => props.theme.boxShadows.heavy};
     overflow: scroll;
     z-index: 2;
 `;

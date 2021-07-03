@@ -1,18 +1,18 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { TaskEditorContext } from "../App";
+import { TaskEditorContext } from "./ContextProviders";
+
 import { Task as TaskInterface, TASK_DETAILS_EDITOR_STATE } from "../typings/global";
 
 const Task = (props: TaskInterface): React.ReactElement => {
     const { setTaskEditor } = React.useContext(TaskEditorContext);
 
-    const handleTaskClick = () => {
+    const handleTaskClick = () =>
         setTaskEditor({
-            state: TASK_DETAILS_EDITOR_STATE.SEE_DETAILS,
+            state: TASK_DETAILS_EDITOR_STATE.EDIT,
             taskId: props.id,
         })
-    }
 
     return (
         <TaskStyled onClick={handleTaskClick}>
@@ -24,7 +24,8 @@ const Task = (props: TaskInterface): React.ReactElement => {
 export default Task;
 
 const TaskTitle = styled.div`
-    font-size: 14px;
+    font-size: 1rem;
+    font-weight: bold;
 `;
 
 const TaskStyled = styled.div`
@@ -32,8 +33,7 @@ const TaskStyled = styled.div`
     max-height: 100px;
     padding: ${props => props.theme.spaces.half};
     margin-bottom: ${props => props.theme.spaces.base};
-    /* @TODO add to theme */
-    box-shadow: rgba(0, 0, 0, 0.15) 0px 2px 8px;
+    box-shadow: ${props => props.theme.boxShadows.light};
     cursor: pointer;
     overflow: hidden;
 

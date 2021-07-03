@@ -10,9 +10,12 @@ export const theme: Theme = {
     lightGrey: "#F2F2F2",
   },
   spaces: {
-    base: "16px",
-    half: "8px",
+    base: "1rem",
+    half: "0.5rem",
   },
-
+  boxShadows: {
+    light: "rgba(0, 0, 0, 0.15) 0px 2px 8px",
+    heavy: "rgba(0, 0, 0, 0.56) 0px 22px 70px 4px",
+  },
   name: "Default",
 };

@@ -1,6 +1,6 @@
 import { STATUS } from "../typings/global";
 
-const statusTranslation = {
+export const statusTranslation = {
     [STATUS.TODO]: "To do",
     [STATUS.BLOCKED]: "Blocked",
     [STATUS.IN_PROGRESS]: "In progress",
@@ -8,5 +8,3 @@ const statusTranslation = {
     [STATUS.DONE]: "Done",
     [STATUS.DEPLOYED]: "Deployed",
 }
-
-export const getStatusTranslation = (status: STATUS): string => statusTranslation[status];

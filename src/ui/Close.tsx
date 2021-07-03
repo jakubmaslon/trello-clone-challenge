@@ -32,11 +32,11 @@ export const Close = styled.div`
 
     &:hover {
         &:before {
-        background: ${props => props.theme.colors.darkGrey};
-    }
+            background: ${props => props.theme.colors.darkGrey};
+        }
 
-    &:after {
-        background: ${props => props.theme.colors.darkGrey};
-    }
+        &:after {
+            background: ${props => props.theme.colors.darkGrey};
+        }
     }
 `;
