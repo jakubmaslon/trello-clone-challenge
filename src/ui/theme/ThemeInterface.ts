@@ -1,5 +1,7 @@
 interface Colors {
   white: string;
+  turquoise: string;
+  grey: string;
 }
 
 interface Spaces {

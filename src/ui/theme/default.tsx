@@ -2,7 +2,9 @@ import { Theme } from "./ThemeInterface";
 
 export const theme: Theme = {
   colors: {
-    white: "#EDF1F2",
+    white: "#FFFFFF",
+    turquoise: "#3C6E71",
+    grey: "#D9D9D9",
   },
   spaces: {
     base: "16px",

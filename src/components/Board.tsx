@@ -1,16 +1,21 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { StateContext } from "../App";
+import { TaskEditorContext, TasksContext } from "../App";
+import { Button } from "../ui/Button";
+import { TASK_DETAILS_EDITOR_STATE } from "../typings/global";
 
 import Task from "./Task";
 
 const Board = (): React.ReactElement => {
-    const { tasks } = React.useContext(StateContext);
+    const { tasks } = React.useContext(TasksContext);
+    const { setTaskEditor } = React.useContext(TaskEditorContext);
 
-    const handleCreateTaskClick = () => {
-        console.log("handleAddTaskClick");
-    }
+    const handleCreateTaskClick = () =>
+        setTaskEditor({
+            state: TASK_DETAILS_EDITOR_STATE.CREATE,
+            task: "",
+        });
 
     return (
         <BoardWrapper>
@@ -18,7 +23,7 @@ const Board = (): React.ReactElement => {
                 {tasks.map((task, index) => (
                     <Task key={task.title + index} {...task} />
                 ))}
-                <button onClick={handleCreateTaskClick}>Create a task</button>
+                <Button onClick={handleCreateTaskClick}>Create a task</Button>
             </Column>
         </BoardWrapper>
     )
@@ -34,4 +39,5 @@ const BoardWrapper = styled.div`
 const Column = styled.div`
     display: flex;
     flex-direction: column;
+    margin: ${props => props.theme.spaces.base};
 ;`

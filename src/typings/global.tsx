@@ -7,6 +7,13 @@ export enum STATUS {
     DEPLOYED = "Deployed",
 }
 
+export enum TASK_DETAILS_EDITOR_STATE  {
+    HIDDEN,
+    CREATE,
+    EDIT,
+    SEE_DETAILS,
+}
+
 export interface Task {
     id: string;
     title: string;
@@ -14,4 +21,11 @@ export interface Task {
     status: STATUS;
     owner: string;
     createdAt: Date;
+}
+
+export enum TASK_FORM_FIELDS {
+    TITLE  = "title",
+    DESCRIPTION  = "description",
+    STATUS  = "status",
+    OWNER  = "owner",
 }

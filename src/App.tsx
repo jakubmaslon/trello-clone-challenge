@@ -3,10 +3,10 @@ import { ThemeProvider } from "styled-components";
 import { Reboot } from 'styled-reboot';
 import { v4 as uuidv4 } from 'uuid';
 
-import { Task, STATUS } from "./typings/global";
+import { Task, STATUS, TASK_DETAILS_EDITOR_STATE } from "./typings/global";
 import { theme } from "./ui/theme/default";
 import Board from "./components/Board";
-import TaskDetails from "./components/TaskDetails";
+import TaskDetails from "./components/TaskEditor";
 
 // @TODO this is mock, remove when done
 const initialTasksData = [
@@ -28,21 +28,35 @@ const initialTasksData = [
   },
 ];
 
-export const StateContext = React.createContext({
+export const TasksContext = React.createContext({
   tasks: [] as Task[],
   setTasks: (tasks: Task[]) => { },
 });
 
+const initialTaskEditor = {
+  state: TASK_DETAILS_EDITOR_STATE.HIDDEN,
+  taskId: "",
+}
+
+export const TaskEditorContext = React.createContext({
+  taskEditor: initialTaskEditor,
+  setTaskEditor: (x?: any) => { }, // @TODO edit type
+});
+
 const App = (): React.ReactElement => {
   const [tasks, setTasks] = React.useState<Task[]>(initialTasksData);
+  const [taskEditor, setTaskEditor] =
+    React.useState<{ state: TASK_DETAILS_EDITOR_STATE, taskId: string }>(initialTaskEditor);
 
   return (
     <ThemeProvider theme={theme}>
-      <StateContext.Provider value={{ tasks, setTasks }}>
-        <Reboot />
-        <Board />
-        <TaskDetails />
-      </StateContext.Provider>
+      <TasksContext.Provider value={{ tasks, setTasks }}>
+        <TaskEditorContext.Provider value={{ taskEditor, setTaskEditor }}>
+          <Reboot />
+          <Board />
+          <TaskDetails />
+        </TaskEditorContext.Provider>
+      </TasksContext.Provider>
     </ThemeProvider>
   )
 }
