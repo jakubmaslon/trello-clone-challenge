@@ -22,6 +22,19 @@ const TaskDetails = (): React.ReactElement | null => {
 
     const [form, setForm] = React.useState<Form>(formInitialState);
 
+    React.useEffect(() => {
+        if (taskEditor.taskId && tasks) {
+            const editedTask = tasks.find(task => task.id === taskEditor.taskId);
+
+            if (editedTask) {
+                setForm({
+                    title: editedTask.title,
+                    description: editedTask.description,
+                })
+            }
+        }
+    }, [taskEditor.taskId, tasks])
+
     if (taskEditor.state === TASK_DETAILS_EDITOR_STATE.HIDDEN) {
         return null;
     }
@@ -47,8 +60,17 @@ const TaskDetails = (): React.ReactElement | null => {
 
     const handleSubmit = () => {
         if (taskEditor.taskId) {
-            // @TODO edit task
-            console.log('edit task:', taskEditor.taskId);
+            const updatedTasks = tasks.map(task => {
+                if (task.id === taskEditor.taskId) {
+                    return {
+                        ...task,
+                        ...form,
+                    }
+                }
+
+                return task;
+            });
+            setTasks([...updatedTasks]);
         } else {
             setTasks([
                 ...tasks,
@@ -71,10 +93,10 @@ const TaskDetails = (): React.ReactElement | null => {
             <TaskEditorStyled>
                 {/* @TODO implement close button */}
                 <CloseButton onClick={closeTaskDetails}>x</CloseButton>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <label>
                         Title: <br />
-                        <input type="text" value={form.title} onChange={handleTitleChange} />
+                        <input type="text" value={form.title} onChange={handleTitleChange} autoFocus />
                     </label><br />
                     <label>
                         Description: <br />

@@ -17,7 +17,6 @@ const Task = (props: TaskInterface): React.ReactElement => {
 
     return (
         <TaskStyled onClick={handleTaskClick}>
-            <p>{props.id}</p>
             <p>{props.title}</p>
             <p>{props.description}</p>
             <p>{getStatusTranslation(props.status)}</p>
