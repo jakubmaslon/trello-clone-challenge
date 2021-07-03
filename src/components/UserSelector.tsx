@@ -16,7 +16,7 @@ const UserSelector = (): React.ReactElement => {
             You're logged as{" "}
             <select value={user} onChange={handleUserChange}>
                 {users.map(user => (
-                    <option value={user}>{user}</option>
+                    <option key={user} value={user}>{user}</option>
                 ))}
             </select>
         </UserSelectorStyled>

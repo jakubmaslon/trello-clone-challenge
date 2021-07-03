@@ -5,7 +5,7 @@ import { Reboot } from 'styled-reboot';
 import { Task, TASK_DETAILS_EDITOR_STATE } from "./typings/global";
 import { theme } from "./ui/theme/default";
 import Board from "./components/Board";
-import TaskDetails from "./components/TaskEditor";
+import TaskEditor from "./components/TaskEditor";
 import NavigationBar from "./components/NavigationBar";
 
 export const TasksContext = React.createContext({
@@ -50,7 +50,7 @@ const App = (): React.ReactElement => {
             <Reboot />
             <NavigationBar />
             <Board />
-            <TaskDetails />
+            <TaskEditor />
           </UserContext.Provider>
         </TaskEditorContext.Provider>
       </TasksContext.Provider>

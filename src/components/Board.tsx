@@ -21,7 +21,7 @@ const Board = (): React.ReactElement => {
     return (
         <BoardWrapper>
             {Object.values(STATUS).map(status =>
-                <Column>
+                <Column key={status}>
                     <ColumnLabel>{getStatusTranslation(status)}</ColumnLabel>
                     {tasks
                         .filter(task => task.status === status)

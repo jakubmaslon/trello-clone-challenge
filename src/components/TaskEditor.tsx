@@ -10,19 +10,19 @@ import { getStatusTranslation } from "../services/getStatusTranslation";
 import { getStatusFlow } from "../services/getStatusFlow";
 import { setLogEntry } from "../services/setLogEntry";
 
-const formInitialState = {
+const getFormInitialState = (users: string[]) => ({
     title: "",
     description: "",
     status: STATUS.TODO,
-    assignee: "",
-}
+    assignee: users[0],
+})
 
-const TaskDetails = (): React.ReactElement | null => {
+const TaskEditor = (): React.ReactElement | null => {
     const { taskEditor, setTaskEditor } = React.useContext(TaskEditorContext);
     const { tasks, setTasks } = React.useContext(TasksContext);
     const { user, users } = React.useContext(UserContext);
 
-    const [form, setForm] = React.useState<Form>(formInitialState);
+    const [form, setForm] = React.useState<Form>(() => getFormInitialState(users));
     const [editedTask, setEditedTask] = React.useState<Task | undefined>(undefined);
 
     React.useEffect(() => {
@@ -40,13 +40,13 @@ const TaskDetails = (): React.ReactElement | null => {
         return null;
     }
 
-    const closeTaskDetails = () => {
+    const closeTaskEditor = () => {
         setTaskEditor({
             state: TASK_DETAILS_EDITOR_STATE.HIDDEN,
             taskId: "",
         });
 
-        setForm(formInitialState);
+        setForm(getFormInitialState(users));
         setEditedTask(undefined);
     }
 
@@ -106,7 +106,7 @@ const TaskDetails = (): React.ReactElement | null => {
             ]);
         }
 
-        closeTaskDetails();
+        closeTaskEditor();
     };
 
     /*
@@ -124,9 +124,9 @@ const TaskDetails = (): React.ReactElement | null => {
 
     return (
         <ModalWrapper>
-            <Overlay onClick={closeTaskDetails} />
+            <Overlay onClick={closeTaskEditor} />
             <TaskEditorStyled>
-                <Close onClick={closeTaskDetails} />
+                <Close onClick={closeTaskEditor} />
                 <FormStyled onSubmit={handleSubmit}>
                     <Label>
                         <h5>Title</h5>
@@ -138,10 +138,9 @@ const TaskDetails = (): React.ReactElement | null => {
                     </Label>
                     <Label>
                         <h5>Assignee</h5>
-                        {/* @TODO fix bug: assign a user on create */}
                         <Select value={form.assignee} onChange={handleAssigneeChange}>
                             {users.map(user => (
-                                <option value={user}>{user}</option>
+                                <option key={user} value={user}>{user}</option>
                             ))}
                         </Select>
                     </Label>
@@ -160,10 +159,10 @@ const TaskDetails = (): React.ReactElement | null => {
                 <Button disabled={!isFormValidated} onClick={handleSubmit}>Save</Button>
 
                 {editedTask && (
-                    <Activity>
+                    <Activity >
                         <h5>Activity</h5>
                         {editedTask.log.map((logItem, index) =>
-                            <LogEntry withAnotherBackgroundColor={!(index % 2)}>{logItem}</LogEntry>
+                            <LogEntry withAnotherBackgroundColor={!(index % 2)} key={logItem}>{logItem}</LogEntry>
                         )}
                     </Activity>
                 )}
@@ -172,7 +171,7 @@ const TaskDetails = (): React.ReactElement | null => {
     )
 }
 
-export default TaskDetails;
+export default TaskEditor;
 
 const FormStyled = styled.form`
     margin-bottom: ${props => props.theme.spaces.base};
