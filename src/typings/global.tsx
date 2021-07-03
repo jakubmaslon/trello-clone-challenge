@@ -21,6 +21,7 @@ export interface Task {
     status: STATUS;
     owner: string;
     createdAt: Date;
+    log: string[];
 }
 
 export enum TASK_FORM_FIELDS {

@@ -11,18 +11,18 @@ Clone this repository and create a [git bundle](https://git-scm.com/docs/git-bun
   * A task must have the status "ToDo" ✅
   * A task must have the user who created it ✅
   * A task must have the date and time when it was created ✅
-* As a user I can change the status of a Task, so that the progress of the project can be tracked.
-  * Acceptance Criteria:
-  * A task must have the user who updated it
-  * A task must have the date and time when it was updated
+* As a user I can change the status of a Task, so that the progress of the project can be tracked. ✅
+  * Acceptance Criteria: ✅
+  * A task must have the user who updated it ✅
+  * A task must have the date and time when it was updated ✅
   * Only the following status transitions are allowed, see __[state transitions](#state-transitions)__ ✅
 * As a user I can change the title and long description of a task. ✅
 * As a user I can assign a task to another user, so that the responsibility of a task can be visualized.
-* As a user I will see the history of a Task, so that I can track the history of a task.
-  * Acceptance Criteria:
-  * The user of a change must be tracked
-  * The date and time of a change must be tracked
-  * The previous and the next value of a change must be tracked
+* As a user I will see the history of a Task, so that I can track the history of a task. ✅
+  * Acceptance Criteria: ✅
+  * The user of a change must be tracked ✅
+  * The date and time of a change must be tracked ✅
+  * The previous and the next value of a change must be tracked ✅
 
 ## State transitions
 ```plantuml

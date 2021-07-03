@@ -7,6 +7,7 @@ import { Button } from "../ui/Button";
 import { TASK_DETAILS_EDITOR_STATE, STATUS, Task } from "../typings/global";
 import { getStatusTranslation } from "../services/getStatusTranslation";
 import { getStatusFlow } from "../services/getStatusFlow";
+import { setLogEntry } from "../services/setLogEntry";
 
 const formInitialState = {
     title: "",
@@ -14,7 +15,7 @@ const formInitialState = {
     status: STATUS.TODO,
 }
 
-interface Form {
+export interface Form {
     title: string;
     description: string;
     status: STATUS;
@@ -68,12 +69,19 @@ const TaskDetails = (): React.ReactElement | null => {
     }
 
     const handleSubmit = () => {
-        if (taskEditor.taskId) {
+        const updatedAt = new Date();
+        const updatedBy = "Spongebob";
+
+        if (editedTask) {
             const updatedTasks = tasks.map(task => {
-                if (task.id === taskEditor.taskId) {
+                if (task.id === editedTask.id) {
                     return {
                         ...task,
                         ...form,
+                        log: [
+                            ...task.log,
+                            setLogEntry({ updatedAt, updatedBy, editedTask, form })
+                        ]
                     }
                 }
 
@@ -86,14 +94,20 @@ const TaskDetails = (): React.ReactElement | null => {
                 {
                     ...form,
                     id: uuidv4(),
-                    owner: "Task #1 owner",
-                    createdAt: new Date(),
+                    owner: updatedBy,
+                    createdAt: updatedAt,
+                    log: [setLogEntry({ updatedAt, updatedBy })],
                 },
             ]);
         }
 
         closeTaskDetails();
     };
+
+    const isSaveButtonDisabled = editedTask && !(
+        editedTask.title !== form.title ||
+        editedTask.description !== form.description ||
+        editedTask.status !== form.status);
 
     return (
         <ModalWrapper>
@@ -121,13 +135,28 @@ const TaskDetails = (): React.ReactElement | null => {
                         </label>
                     )}
                 </form>
-                <Button onClick={handleSubmit}>Save</Button>
+                <Button disabled={isSaveButtonDisabled} onClick={handleSubmit}>Save</Button>
+
+                {editedTask && (
+                    <>
+                        <h3>Activity:</h3>
+                        <ul>
+                            {editedTask.log.map(logItem =>
+                                <LogEntry>{logItem}</LogEntry>
+                            )}
+                        </ul>
+                    </>
+                )}
             </TaskEditorStyled>
         </ModalWrapper>
     )
 }
 
 export default TaskDetails;
+
+const LogEntry = styled.li`
+    white-space: pre-wrap;
+`;
 
 const ModalWrapper = styled.div`
     position: fixed;
@@ -163,6 +192,7 @@ const TaskEditorStyled = styled.div`
     background: ${props => props.theme.colors.white};
     /* @TODO move to theme */
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+    overflow: scroll;
 
     z-index: 2;
 `;
