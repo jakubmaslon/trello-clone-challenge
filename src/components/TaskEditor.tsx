@@ -2,7 +2,7 @@ import * as React from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from 'uuid';
 
-import { TaskEditorContext, TasksContext } from "../App";
+import { TaskEditorContext, TasksContext, UserContext } from "../App";
 import { Button } from "../ui/Button";
 import { TASK_DETAILS_EDITOR_STATE, STATUS, Task } from "../typings/global";
 import { getStatusTranslation } from "../services/getStatusTranslation";
@@ -13,17 +13,20 @@ const formInitialState = {
     title: "",
     description: "",
     status: STATUS.TODO,
+    assignee: "",
 }
 
 export interface Form {
     title: string;
     description: string;
     status: STATUS;
+    assignee: string;
 }
 
 const TaskDetails = (): React.ReactElement | null => {
     const { taskEditor, setTaskEditor } = React.useContext(TaskEditorContext);
     const { tasks, setTasks } = React.useContext(TasksContext);
+    const { user, users } = React.useContext(UserContext);
 
     const [form, setForm] = React.useState<Form>(formInitialState);
     const [editedTask, setEditedTask] = React.useState<Task | undefined>(undefined);
@@ -53,6 +56,9 @@ const TaskDetails = (): React.ReactElement | null => {
         setEditedTask(undefined);
     }
 
+    /*
+        FORM CHANGE HANDLERS
+    */
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const title = event.target.value;
         setForm({ ...form, title })
@@ -63,6 +69,16 @@ const TaskDetails = (): React.ReactElement | null => {
         setForm({ ...form, description })
     };
 
+    // const handleAssigneeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     const assignee = event.target.value;
+    //     setForm({ ...form, assignee })
+    // };
+
+    const handleAssigneeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const assignee = event.target.value;
+        setForm({ ...form, assignee });
+    }
+
     const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const status = event.target.value as STATUS;
         setForm({ ...form, status })
@@ -70,7 +86,7 @@ const TaskDetails = (): React.ReactElement | null => {
 
     const handleSubmit = () => {
         const updatedAt = new Date();
-        const updatedBy = "Spongebob";
+        const updatedBy = user;
 
         if (editedTask) {
             const updatedTasks = tasks.map(task => {
@@ -104,10 +120,18 @@ const TaskDetails = (): React.ReactElement | null => {
         closeTaskDetails();
     };
 
-    const isSaveButtonDisabled = editedTask && !(
-        editedTask.title !== form.title ||
-        editedTask.description !== form.description ||
-        editedTask.status !== form.status);
+    /*
+        FORM VALIDATION
+    */
+    const requiredFieldsValidated = form.title;
+
+    const isFormValidated = editedTask
+        ? requiredFieldsValidated && (
+            editedTask.title !== form.title ||
+            editedTask.description !== form.description ||
+            editedTask.assignee !== form.assignee ||
+            editedTask.status !== form.status)
+        : requiredFieldsValidated;
 
     return (
         <ModalWrapper>
@@ -124,6 +148,15 @@ const TaskDetails = (): React.ReactElement | null => {
                         Description: <br />
                         <textarea value={form.description} onChange={handleDescriptionChange} />
                     </label><br />
+                    <label>
+                        Assignee: <br />
+                        <select value={form.assignee} onChange={handleAssigneeChange}>
+                            {users.map(user => (
+                                <option value={user}>{user}</option>
+                            ))}
+                        </select>
+                    </label><br />
+
                     {editedTask && (
                         <label>
                             Status: <br />
@@ -134,8 +167,13 @@ const TaskDetails = (): React.ReactElement | null => {
                             </select>
                         </label>
                     )}
+                    {editedTask && (
+                        <div>
+                            Task owner: {editedTask?.owner}
+                        </div>
+                    )}
                 </form>
-                <Button disabled={isSaveButtonDisabled} onClick={handleSubmit}>Save</Button>
+                <Button disabled={!isFormValidated} onClick={handleSubmit}>Save</Button>
 
                 {editedTask && (
                     <>

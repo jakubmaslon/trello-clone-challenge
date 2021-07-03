@@ -1,13 +1,13 @@
 export enum STATUS {
     TODO = "ToDo",
-    BLOCKED = "Blocked",
     IN_PROGRESS = "InProgress",
+    BLOCKED = "Blocked",
     IN_QA = "InQa",
     DONE = "Done",
     DEPLOYED = "Deployed",
 }
 
-export enum TASK_DETAILS_EDITOR_STATE  {
+export enum TASK_DETAILS_EDITOR_STATE {
     HIDDEN,
     CREATE,
     EDIT,
@@ -19,14 +19,15 @@ export interface Task {
     title: string;
     description: string;
     status: STATUS;
+    assignee: string;
     owner: string;
     createdAt: Date;
     log: string[];
 }
 
 export enum TASK_FORM_FIELDS {
-    TITLE  = "title",
-    DESCRIPTION  = "description",
-    STATUS  = "status",
-    OWNER  = "owner",
+    TITLE = "title",
+    DESCRIPTION = "description",
+    STATUS = "status",
+    OWNER = "owner",
 }

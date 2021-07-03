@@ -20,7 +20,7 @@ const Task = (props: TaskInterface): React.ReactElement => {
             <p>{props.title}</p>
             <p>{props.description}</p>
             <p>{getStatusTranslation(props.status)}</p>
-            <p>{props.owner}</p>
+            <p>{props.assignee}</p>
             <p>{props.createdAt.toLocaleString()}</p>
         </TaskStyled>
     )

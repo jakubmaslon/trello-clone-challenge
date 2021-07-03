@@ -17,7 +17,12 @@ const getEditedAction = (editedTask: Task, form: Form) => {
         ? `\nStatus: ${getStatusTranslation(editedTask.status)} ➡️ ${getStatusTranslation(form.status)}`
         : "";
 
-    return `${editedTaskLabel}${titleEdited}${descriptionEdited}${statusEdited}`;
+
+    const assigneeEdited = editedTask.assignee !== form.assignee
+        ? `\nAssignee: ${editedTask.assignee} ➡️ ${form.assignee}`
+        : "";
+
+    return `${editedTaskLabel}${titleEdited}${descriptionEdited}${assigneeEdited}${statusEdited}`;
 }
 
 interface LogEntry {

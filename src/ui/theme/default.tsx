@@ -5,6 +5,8 @@ export const theme: Theme = {
     white: "#FFFFFF",
     turquoise: "#3C6E71",
     grey: "#D9D9D9",
+    blue: "#284B63",
+    darkGrey: "#353535",
   },
   spaces: {
     base: "16px",

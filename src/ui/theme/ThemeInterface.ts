@@ -2,6 +2,8 @@ interface Colors {
   white: string;
   turquoise: string;
   grey: string;
+  blue: string;
+  darkGrey: string;
 }
 
 interface Spaces {
