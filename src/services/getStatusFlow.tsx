@@ -1,0 +1,12 @@
+import { STATUS } from "../typings/global";
+
+const statusFlow = {
+    [STATUS.TODO]: [STATUS.TODO, STATUS.IN_PROGRESS],
+    [STATUS.IN_PROGRESS]: [STATUS.IN_PROGRESS, STATUS.BLOCKED, STATUS.IN_QA],
+    [STATUS.BLOCKED]: [STATUS.BLOCKED, STATUS.TODO],
+    [STATUS.IN_QA]: [STATUS.IN_QA, STATUS.DONE, STATUS.TODO],
+    [STATUS.DONE]: [STATUS.DONE, STATUS.DEPLOYED],
+    [STATUS.DEPLOYED]: [STATUS.DEPLOYED],
+}
+
+export const getStatusFlow = (status: STATUS): STATUS[] => statusFlow[status];

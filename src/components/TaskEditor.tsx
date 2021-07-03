@@ -4,16 +4,20 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { TaskEditorContext, TasksContext } from "../App";
 import { Button } from "../ui/Button";
-import { TASK_DETAILS_EDITOR_STATE, STATUS } from "../typings/global";
+import { TASK_DETAILS_EDITOR_STATE, STATUS, Task } from "../typings/global";
+import { getStatusTranslation } from "../services/getStatusTranslation";
+import { getStatusFlow } from "../services/getStatusFlow";
 
 const formInitialState = {
     title: "",
     description: "",
+    status: STATUS.TODO,
 }
 
 interface Form {
     title: string;
     description: string;
+    status: STATUS;
 }
 
 const TaskDetails = (): React.ReactElement | null => {
@@ -21,16 +25,15 @@ const TaskDetails = (): React.ReactElement | null => {
     const { tasks, setTasks } = React.useContext(TasksContext);
 
     const [form, setForm] = React.useState<Form>(formInitialState);
+    const [editedTask, setEditedTask] = React.useState<Task | undefined>(undefined);
 
     React.useEffect(() => {
         if (taskEditor.taskId && tasks) {
             const editedTask = tasks.find(task => task.id === taskEditor.taskId);
 
             if (editedTask) {
-                setForm({
-                    title: editedTask.title,
-                    description: editedTask.description,
-                })
+                setEditedTask({ ...editedTask });
+                setForm({ ...editedTask });
             }
         }
     }, [taskEditor.taskId, tasks])
@@ -46,6 +49,7 @@ const TaskDetails = (): React.ReactElement | null => {
         });
 
         setForm(formInitialState);
+        setEditedTask(undefined);
     }
 
     const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +61,11 @@ const TaskDetails = (): React.ReactElement | null => {
         const description = event.target.value;
         setForm({ ...form, description })
     };
+
+    const handleStatusChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const status = event.target.value as STATUS;
+        setForm({ ...form, status })
+    }
 
     const handleSubmit = () => {
         if (taskEditor.taskId) {
@@ -77,7 +86,6 @@ const TaskDetails = (): React.ReactElement | null => {
                 {
                     ...form,
                     id: uuidv4(),
-                    status: STATUS.TODO,
                     owner: "Task #1 owner",
                     createdAt: new Date(),
                 },
@@ -102,6 +110,16 @@ const TaskDetails = (): React.ReactElement | null => {
                         Description: <br />
                         <textarea value={form.description} onChange={handleDescriptionChange} />
                     </label><br />
+                    {editedTask && (
+                        <label>
+                            Status: <br />
+                            <select value={form.status} onChange={handleStatusChange}>
+                                {getStatusFlow(editedTask.status).map(status =>
+                                    <option key={status} value={status}>{getStatusTranslation(status)}</option>
+                                )}
+                            </select>
+                        </label>
+                    )}
                 </form>
                 <Button onClick={handleSubmit}>Save</Button>
             </TaskEditorStyled>
