@@ -1,5 +1,4 @@
-import { Task } from "../typings/global";
-import { Form } from "../components/TaskEditor";
+import { Task, Form } from "../typings/global";
 import { getStatusTranslation } from "./getStatusTranslation";
 
 const getEditedAction = (editedTask: Task, form: Form) => {
@@ -16,7 +15,6 @@ const getEditedAction = (editedTask: Task, form: Form) => {
     const statusEdited = editedTask.status !== form.status
         ? `\nStatus: ${getStatusTranslation(editedTask.status)} ➡️ ${getStatusTranslation(form.status)}`
         : "";
-
 
     const assigneeEdited = editedTask.assignee !== form.assignee
         ? `\nAssignee: ${editedTask.assignee} ➡️ ${form.assignee}`

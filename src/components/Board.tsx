@@ -18,12 +18,11 @@ const Board = (): React.ReactElement => {
             task: "",
         });
 
-    console.log(Object.keys(STATUS));
     return (
         <BoardWrapper>
             {Object.values(STATUS).map(status =>
                 <Column>
-                    <h6>{getStatusTranslation(status)}</h6>
+                    <ColumnLabel>{getStatusTranslation(status)}</ColumnLabel>
                     {tasks
                         .filter(task => task.status === status)
                         .map((task, index) => (
@@ -40,6 +39,10 @@ const Board = (): React.ReactElement => {
 
 export default Board;
 
+const ColumnLabel = styled.h6`
+    text-transform: uppercase;
+`;
+
 const BoardWrapper = styled.div`
     display: flex;
     flex-wrap: nowrap;
@@ -50,7 +53,8 @@ const BoardWrapper = styled.div`
 const Column = styled.div`
     display: flex;
     flex-direction: column;
-    margin: ${props => props.theme.spaces.base};
     min-width: 200px;
-    max-width: 200px;
+    width: 100%;
+    padding: ${props => props.theme.spaces.base};
+    border: 1px solid ${props => props.theme.colors.lightGrey};
 ;`

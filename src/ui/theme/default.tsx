@@ -7,9 +7,11 @@ export const theme: Theme = {
     grey: "#D9D9D9",
     blue: "#284B63",
     darkGrey: "#353535",
+    lightGrey: "#F2F2F2",
   },
   spaces: {
     base: "16px",
+    half: "8px",
   },
 
   name: "Default",

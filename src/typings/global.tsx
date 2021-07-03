@@ -25,6 +25,13 @@ export interface Task {
     log: string[];
 }
 
+export interface Form {
+    title: string;
+    description: string;
+    status: STATUS;
+    assignee: string;
+}
+
 export enum TASK_FORM_FIELDS {
     TITLE = "title",
     DESCRIPTION = "description",

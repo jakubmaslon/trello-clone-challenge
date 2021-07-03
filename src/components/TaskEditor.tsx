@@ -2,9 +2,10 @@ import * as React from "react";
 import styled from "styled-components";
 import { v4 as uuidv4 } from 'uuid';
 
+import { TASK_DETAILS_EDITOR_STATE, STATUS, Task, Form } from "../typings/global";
 import { TaskEditorContext, TasksContext, UserContext } from "../App";
 import { Button } from "../ui/Button";
-import { TASK_DETAILS_EDITOR_STATE, STATUS, Task } from "../typings/global";
+import { Close } from "../ui/Close";
 import { getStatusTranslation } from "../services/getStatusTranslation";
 import { getStatusFlow } from "../services/getStatusFlow";
 import { setLogEntry } from "../services/setLogEntry";
@@ -14,13 +15,6 @@ const formInitialState = {
     description: "",
     status: STATUS.TODO,
     assignee: "",
-}
-
-export interface Form {
-    title: string;
-    description: string;
-    status: STATUS;
-    assignee: string;
 }
 
 const TaskDetails = (): React.ReactElement | null => {
@@ -40,7 +34,7 @@ const TaskDetails = (): React.ReactElement | null => {
                 setForm({ ...editedTask });
             }
         }
-    }, [taskEditor.taskId, tasks])
+    }, [taskEditor.taskId, tasks]);
 
     if (taskEditor.state === TASK_DETAILS_EDITOR_STATE.HIDDEN) {
         return null;
@@ -68,11 +62,6 @@ const TaskDetails = (): React.ReactElement | null => {
         const description = event.target.value;
         setForm({ ...form, description })
     };
-
-    // const handleAssigneeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     const assignee = event.target.value;
-    //     setForm({ ...form, assignee })
-    // };
 
     const handleAssigneeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const assignee = event.target.value;
@@ -137,53 +126,46 @@ const TaskDetails = (): React.ReactElement | null => {
         <ModalWrapper>
             <Overlay onClick={closeTaskDetails} />
             <TaskEditorStyled>
-                {/* @TODO implement close button */}
-                <CloseButton onClick={closeTaskDetails}>x</CloseButton>
-                <form onSubmit={handleSubmit}>
-                    <label>
-                        Title: <br />
-                        <input type="text" value={form.title} onChange={handleTitleChange} autoFocus />
-                    </label><br />
-                    <label>
-                        Description: <br />
-                        <textarea value={form.description} onChange={handleDescriptionChange} />
-                    </label><br />
-                    <label>
-                        Assignee: <br />
-                        <select value={form.assignee} onChange={handleAssigneeChange}>
+                <Close onClick={closeTaskDetails} />
+                <FormStyled onSubmit={handleSubmit}>
+                    <Label>
+                        <h5>Title</h5>
+                        <Input type="text" value={form.title} onChange={handleTitleChange} autoFocus />
+                    </Label>
+                    <Label>
+                        <h5>Description</h5>
+                        <Textarea value={form.description} onChange={handleDescriptionChange} />
+                    </Label>
+                    <Label>
+                        <h5>Assignee</h5>
+                        {/* @TODO fix bug: assign a user on create */}
+                        <Select value={form.assignee} onChange={handleAssigneeChange}>
                             {users.map(user => (
                                 <option value={user}>{user}</option>
                             ))}
-                        </select>
-                    </label><br />
+                        </Select>
+                    </Label>
 
                     {editedTask && (
-                        <label>
-                            Status: <br />
-                            <select value={form.status} onChange={handleStatusChange}>
+                        <Label>
+                            <h5>Status</h5>
+                            <Select value={form.status} onChange={handleStatusChange}>
                                 {getStatusFlow(editedTask.status).map(status =>
                                     <option key={status} value={status}>{getStatusTranslation(status)}</option>
                                 )}
-                            </select>
-                        </label>
+                            </Select>
+                        </Label>
                     )}
-                    {editedTask && (
-                        <div>
-                            Task owner: {editedTask?.owner}
-                        </div>
-                    )}
-                </form>
+                </FormStyled>
                 <Button disabled={!isFormValidated} onClick={handleSubmit}>Save</Button>
 
                 {editedTask && (
-                    <>
-                        <h3>Activity:</h3>
-                        <ul>
-                            {editedTask.log.map(logItem =>
-                                <LogEntry>{logItem}</LogEntry>
-                            )}
-                        </ul>
-                    </>
+                    <Activity>
+                        <h5>Activity</h5>
+                        {editedTask.log.map((logItem, index) =>
+                            <LogEntry withAnotherBackgroundColor={!(index % 2)}>{logItem}</LogEntry>
+                        )}
+                    </Activity>
                 )}
             </TaskEditorStyled>
         </ModalWrapper>
@@ -192,8 +174,41 @@ const TaskDetails = (): React.ReactElement | null => {
 
 export default TaskDetails;
 
-const LogEntry = styled.li`
+const FormStyled = styled.form`
+    margin-bottom: ${props => props.theme.spaces.base};
+`;
+
+const Label = styled.label`
+    width: 100%;
+    margin-bottom: ${props => props.theme.spaces.base};
+
+    &:last-child {
+        margin-bottom: 0;
+    }
+`;
+
+const Select = styled.select`
+    width: 100%;
+    padding: ${props => props.theme.spaces.half};
+`;
+
+const Input = styled.input`
+    width: 100%;
+    padding: ${props => props.theme.spaces.half};
+`;
+
+const Textarea = styled.textarea`
+    width: 100%;
+    min-height: 100px;
+    max-height: 100px;
+    padding: ${props => props.theme.spaces.half};
+`;
+
+const LogEntry = styled.div<{ withAnotherBackgroundColor: boolean }>`
     white-space: pre-wrap;
+    font-size: 12px;
+    padding: ${props => props.theme.spaces.half};
+    background: ${props => props.withAnotherBackgroundColor ? props.theme.colors.lightGrey : "none"};
 `;
 
 const ModalWrapper = styled.div`
@@ -224,22 +239,15 @@ const TaskEditorStyled = styled.div`
     display: block;
     height: 100%;
     width: 100%;
-    max-height: 480px;
-    max-width: 480px;
+    max-height: 576px;
+    max-width: 576px;
     padding: ${props => props.theme.spaces.base};
     background: ${props => props.theme.colors.white};
-    /* @TODO move to theme */
     box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
     overflow: scroll;
-
     z-index: 2;
 `;
 
-const CloseButton = styled.div`
-    position: absolute;
-    top: ${props => props.theme.spaces.base};
-    right: ${props => props.theme.spaces.base};
-    padding: ${props => props.theme.spaces.base};
-    margin: -${props => props.theme.spaces.base};
-    cursor: pointer;
+const Activity = styled.div`
+    margin-top: ${props => props.theme.spaces.base};
 `;

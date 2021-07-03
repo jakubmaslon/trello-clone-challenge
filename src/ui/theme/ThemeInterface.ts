@@ -4,9 +4,11 @@ interface Colors {
   grey: string;
   blue: string;
   darkGrey: string;
+  lightGrey: string;
 }
 
 interface Spaces {
+  half: string;
   base: string;
 }
 
