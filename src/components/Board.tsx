@@ -10,6 +10,10 @@ import { STATUS, TASK_DETAILS_EDITOR_STATE, TEST_IDS } from "../typings/global";
 
 import { statusTranslation } from "../services/getStatusTranslation";
 
+/**
+ * Board is the main feature of the app. 
+ * It includes all tasks categorized in columns by their statuses.
+ */
 const Board = (): React.ReactElement => {
     const { tasks } = React.useContext(TasksContext);
     const { setTaskEditor } = React.useContext(TaskEditorContext);

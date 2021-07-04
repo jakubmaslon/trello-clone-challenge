@@ -40,6 +40,14 @@ interface Props {
     children: React.ReactElement;
 }
 
+/**
+ * ContextProviders inits and provides all contexts used in the app.
+ * It includes providers as follows:
+ *   - ThemeProvider for styled-components theme
+ *   - TasksContext.Provider - managing tasks
+ *   - TaskEditorContext.Provider - managing editing tasks
+ *   - UserContext.Provider - managing users
+ */
 const ContextProviders = (props: Props): React.ReactElement => {
     const [tasks, setTasks] = React.useState<Task[]>([]);
     const [taskEditor, setTaskEditor] =

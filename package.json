@@ -23,7 +23,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "doc": "react-docgen src/components -o docs.json --pretty -x tsx"
   },
   "eslintConfig": {
     "extends": [
@@ -48,6 +49,7 @@
     "@types/styled-components": "^5.1.10",
     "@types/uuid": "^8.3.1",
     "jest-styled-components": "^7.0.4",
+    "react-docgen": "^5.4.0",
     "react-test-renderer": "^17.0.2"
   },
   "jest": {

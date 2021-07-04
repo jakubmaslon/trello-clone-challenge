@@ -20,6 +20,11 @@ const getFormInitialState = (users: string[]) => ({
     [TASK_FORM_FIELDS.ASSIGNEE]: users[0],
 })
 
+/**
+ * TaskEditor is a component where all the task management operations are performed.
+ * It implements a form for creating/editing a task.
+ * It includes the activity log.
+ */
 const TaskEditor = (): React.ReactElement | null => {
     const { taskEditor, setTaskEditor } = React.useContext(TaskEditorContext);
     const { tasks, setTasks } = React.useContext(TasksContext);

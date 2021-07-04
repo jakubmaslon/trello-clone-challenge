@@ -5,6 +5,9 @@ import { TaskEditorContext } from "./ContextProviders";
 
 import { Task as TaskInterface, TASK_DETAILS_EDITOR_STATE } from "../typings/global";
 
+/**
+ * Task is displaying a task title and handles clicks on it.
+ */
 const Task = (props: TaskInterface): React.ReactElement => {
     const { setTaskEditor } = React.useContext(TaskEditorContext);
 

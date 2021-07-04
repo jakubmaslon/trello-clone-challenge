@@ -3,6 +3,9 @@ import styled from "styled-components";
 
 import { UserContext } from "./ContextProviders";
 
+/**
+ * UserSelector user UserContext for displaying and selecting users. 
+ */
 const UserSelector = (): React.ReactElement => {
     const { user, setUser, users } = React.useContext(UserContext);
 

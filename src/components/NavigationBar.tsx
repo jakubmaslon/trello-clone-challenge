@@ -3,6 +3,9 @@ import styled from "styled-components";
 
 import UserSelector from "./UserSelector";
 
+/**
+ * NavigationBar implements a navigation bar with a user selector inside.
+ */
 const NavigationBar = (): React.ReactElement => (
     <NavigationBarWrapper>
         <UserSelector />

@@ -1,0 +1,42 @@
+{
+  "src/components/Board.tsx": {
+    "description": "Board is the main feature of the app. \nIt includes all tasks categorized in columns by their statuses.",
+    "displayName": "Board",
+    "methods": []
+  },
+  "src/components/ContextProviders.tsx": {
+    "description": "ContextProviders inits and provides all contexts used in the app.\nIt includes providers as follows:\n  - ThemeProvider for styled-components theme\n  - TasksContext.Provider - managing tasks\n  - TaskEditorContext.Provider - managing editing tasks\n  - UserContext.Provider - managing users",
+    "displayName": "ContextProviders",
+    "methods": [],
+    "props": {
+      "children": {
+        "required": true,
+        "tsType": {
+          "name": "ReactReactElement",
+          "raw": "React.ReactElement"
+        },
+        "description": ""
+      }
+    }
+  },
+  "src/components/NavigationBar.tsx": {
+    "description": "NavigationBar implements a navigation bar with a user selector inside.",
+    "displayName": "NavigationBar",
+    "methods": []
+  },
+  "src/components/Task.tsx": {
+    "description": "Task is displaying a task title and handles clicks on it.",
+    "displayName": "Task",
+    "methods": []
+  },
+  "src/components/TaskEditor.tsx": {
+    "description": "TaskEditor is a component where all the task management operations are performed.\nIt implements a form for creating/editing a task.\nIt includes the activity log.",
+    "displayName": "TaskEditor",
+    "methods": []
+  },
+  "src/components/UserSelector.tsx": {
+    "description": "UserSelector user UserContext for displaying and selecting users.",
+    "displayName": "UserSelector",
+    "methods": []
+  }
+}
