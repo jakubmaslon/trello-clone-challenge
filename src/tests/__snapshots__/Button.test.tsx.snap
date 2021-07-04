@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button component tests renders correctly 1`] = `
+.c0 {
+  width: 100%;
+  padding: 1rem;
+  border: none;
+  background: #3C6E71;
+  color: #FFFFFF;
+  text-transform: uppercase;
+  cursor: pointer;
+  opacity: 1;
+}
+
+<button
+  className="c0"
+/>
+`;

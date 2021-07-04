@@ -1,0 +1,50 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Close component tests renders correctly 1`] = `
+.c0 {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 1rem;
+  margin: -1rem;
+  cursor: pointer;
+}
+
+.c0:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #D9D9D9;
+  -webkit-transform: rotate(45deg) scale(0.5);
+  -ms-transform: rotate(45deg) scale(0.5);
+  transform: rotate(45deg) scale(0.5);
+}
+
+.c0:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #D9D9D9;
+  -webkit-transform: rotate(-45deg) scale(0.5);
+  -ms-transform: rotate(-45deg) scale(0.5);
+  transform: rotate(-45deg) scale(0.5);
+}
+
+.c0:hover:before {
+  background: #353535;
+}
+
+.c0:hover:after {
+  background: #353535;
+}
+
+<div
+  className="c0"
+/>
+`;

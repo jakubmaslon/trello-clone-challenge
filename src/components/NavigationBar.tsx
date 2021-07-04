@@ -3,13 +3,11 @@ import styled from "styled-components";
 
 import UserSelector from "./UserSelector";
 
-const NavigationBar = (): React.ReactElement => {
-    return (
-        <NavigationBarWrapper>
-            <UserSelector />
-        </NavigationBarWrapper>
-    )
-}
+const NavigationBar = (): React.ReactElement => (
+    <NavigationBarWrapper>
+        <UserSelector />
+    </NavigationBarWrapper>
+)
 
 export default NavigationBar;
 

@@ -22,7 +22,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --watchAll=false",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -44,7 +44,24 @@
     ]
   },
   "devDependencies": {
+    "@types/react-test-renderer": "^17.0.1",
     "@types/styled-components": "^5.1.10",
-    "@types/uuid": "^8.3.1"
+    "@types/uuid": "^8.3.1",
+    "jest-styled-components": "^7.0.4",
+    "react-test-renderer": "^17.0.2"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*.{ts,tsx}",
+      "!src/index.tsx"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 80,
+        "functions": 80,
+        "lines": 80,
+        "statements": 80
+      }
+    }
   }
 }

@@ -36,3 +36,7 @@ export interface Form {
     [TASK_FORM_FIELDS.STATUS]: STATUS;
     [TASK_FORM_FIELDS.ASSIGNEE]: string;
 }
+
+export enum TEST_IDS {
+    BOARD_COLUMN = "boardColumn",
+}

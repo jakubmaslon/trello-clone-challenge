@@ -6,7 +6,7 @@ import Task from "./Task";
 
 import { Button } from "../ui/Button";
 
-import { STATUS, TASK_DETAILS_EDITOR_STATE } from "../typings/global";
+import { STATUS, TASK_DETAILS_EDITOR_STATE, TEST_IDS } from "../typings/global";
 
 import { statusTranslation } from "../services/getStatusTranslation";
 
@@ -23,7 +23,7 @@ const Board = (): React.ReactElement => {
     return (
         <BoardWrapper>
             {Object.values(STATUS).map(status =>
-                <Column key={status}>
+                <Column key={status} data-testid={TEST_IDS.BOARD_COLUMN}>
                     <ColumnLabel>{statusTranslation[status]}</ColumnLabel>
                     {tasks
                         .filter(task => task.status === status)
