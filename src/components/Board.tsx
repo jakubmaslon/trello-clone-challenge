@@ -21,7 +21,7 @@ const Board = (): React.ReactElement => {
     const handleCreateTaskClick = () =>
         setTaskEditor({
             state: TASK_DETAILS_EDITOR_STATE.EDIT,
-            task: "",
+            taskId: "",
         });
 
     return (

@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { STATUS, Task, Form, TASK_FORM_FIELDS } from "../typings/global";
+import { STATUS, Task, Form, TASK_FORM_FIELDS, TEST_IDS } from "../typings/global";
 
 import { Button } from "../ui/Button";
 
@@ -55,6 +55,7 @@ const TaskForm = (props: Props): React.ReactElement | null => {
                         value={form[TASK_FORM_FIELDS.TITLE]}
                         onChange={event => setForm({ ...form, [TASK_FORM_FIELDS.TITLE]: event.target.value })}
                         autoFocus
+                        data-testid={TEST_IDS.TASK_FORM_TITLE}
                     />
                 </Label>
                 <Label>

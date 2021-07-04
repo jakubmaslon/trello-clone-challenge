@@ -39,6 +39,9 @@ export interface Form {
 
 export enum TEST_IDS {
     BOARD_COLUMN = "boardColumn",
+    LOG_ENTRY = "logEntry",
+    TASK_TITLE = "taskTitle",
+    TASK_FORM_TITLE = "taskFormTitle",
 }
 
 export interface TaskEditor {

@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { TaskEditorContext } from "./ContextProviders";
 
-import { Task as TaskInterface, TASK_DETAILS_EDITOR_STATE } from "../typings/global";
+import { Task as TaskInterface, TASK_DETAILS_EDITOR_STATE, TEST_IDS } from "../typings/global";
 
 /**
  * Task is displaying a task title and handles clicks on it.
@@ -19,7 +19,7 @@ const Task = (props: TaskInterface): React.ReactElement => {
 
     return (
         <TaskStyled onClick={handleTaskClick}>
-            <TaskTitle>{props.title}</TaskTitle>
+            <TaskTitle data-testid={TEST_IDS.TASK_TITLE}>{props.title}</TaskTitle>
         </TaskStyled>
     )
 }

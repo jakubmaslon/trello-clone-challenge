@@ -1,7 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
-import { Task } from "../typings/global";
+import { Task, TEST_IDS } from "../typings/global";
 
 interface Props {
     task: Task;
@@ -14,7 +14,13 @@ const Activity = (props: Props): React.ReactElement | null => (
     <ActivityStyled>
         <h5>Activity</h5>
         {props.task.log.map((logItem, index) =>
-            <LogEntry withAnotherBackgroundColor={!(index % 2)} key={logItem}>{logItem}</LogEntry>
+            <LogEntry
+                key={logItem}
+                withAnotherBackgroundColor={!(index % 2)}
+                data-testid={TEST_IDS.LOG_ENTRY}
+            >
+                {logItem}
+            </LogEntry>
         )}
     </ActivityStyled>
 )
