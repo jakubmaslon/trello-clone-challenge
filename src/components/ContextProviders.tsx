@@ -4,7 +4,7 @@ import { Reboot } from 'styled-reboot';
 
 import { theme } from "../ui/theme/default";
 
-import { Task, TASK_DETAILS_EDITOR_STATE } from "../typings/global";
+import { Task, TASK_DETAILS_EDITOR_STATE, TaskEditor } from "../typings/global";
 
 // TASKS CONTEXT
 export const TasksContext = React.createContext({
@@ -20,7 +20,7 @@ const initialTaskEditor = {
 
 export const TaskEditorContext = React.createContext({
     taskEditor: initialTaskEditor,
-    setTaskEditor: (x?: any) => { },
+    setTaskEditor: (taskEditor: TaskEditor) => { },
 });
 
 // USER CONTEXT

@@ -40,3 +40,8 @@ export interface Form {
 export enum TEST_IDS {
     BOARD_COLUMN = "boardColumn",
 }
+
+export interface TaskEditor {
+    state: TASK_DETAILS_EDITOR_STATE;
+    taskId: string;
+}
